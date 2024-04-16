@@ -1,0 +1,39 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+nav {
+    background-color: #4522a5; 
+    padding: 20px; 
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+
+    
+  }
+  
+  nav a {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    color: #ffffff; /* Text color */
+    text-decoration: none; /* Remove underline */
+    margin-right: 20px; /* Spacing between links */
+    font-size: 18px; /* Font size */
+    transition: 0.3s ;
+    padding: 10px 20px 10px 20px;
+    border-radius: 2px;
+
+
+  }
+  
+  nav a:hover {
+    background-color: white;
+    color: black; /* Underline on hover */
+  }
+
+
+nav a.router-link-exact-active{
+    background-color:white;
+    color:black;
+  }
