@@ -1,8 +1,8 @@
 <template>
   <div>
     <nav>
-      <router-link to="/">Books</router-link>
-      <router-link to="/orders">Orders</router-link>
+      <router-link :to="{name:'books'}">Books</router-link>
+      <router-link :to="{name:'admin'}">Admin</router-link>
     </nav>
     <router-view/>
   </div>

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Books from '../views/Books.vue'
-import Order from '../views/Order.vue'
-
+import Admin from '../views/AdminPanel.vue'
 const routes = [
   {
     path: '/',
@@ -9,9 +8,9 @@ const routes = [
     component: Books
   },
   {
-    path: '/orders',
-    name: 'orders',
-    component: Order
+    path: '/admin',
+    name: 'admin',
+    component: Admin
   }
 ]
 
