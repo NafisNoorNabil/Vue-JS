@@ -120,7 +120,7 @@ class BookController extends Controller
                     'status'=>200,
                     'message'=>"Book Updated Successfully"
                 ],200);
-
+            
             }else{
                 return response()->json([
                     'status'=>404,
@@ -133,11 +133,15 @@ class BookController extends Controller
         $book=Book::find($id);
         if($book){
             $book->delete();
+            return response()->json([
+                'status'=>200,
+                'message'=>"Book Deleted Successfully"
+            ],200);
         }else{
             return response()->json([
                 'status'=>404,
                 'message'=>"No Book Found"
-            ],500);
+            ],404);
         }
 
     }

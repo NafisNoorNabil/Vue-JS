@@ -1,127 +1,61 @@
-<template>
-  <div class="book">
-    <h1>List of Books</h1>
-    <ul>
-      <li v-for="book in books" :key="book.id">
-        <img :src="require(`@/assets/images/${book.imageFileName}`)" :alt="book.title" style="max-width: 200px;">
-        <h3>{{ book.title }}</h3>
-        <p>{{ book.price }}$</p>
-        <button class="button-delete" @click="deleteBook(book.id)">Delete</button>
-      </li>
-    </ul>
-  </div>
+<template >
+    <div class="flex py-10 space-x-10 items-center justify-evenly w-full font-poppins">
+      <h1>List of Books </h1>
+
+      <router-link to="/books/create" class="px-4 py-2 bg-violet-200 hover:bg-violet-300  duration-150 rounded">
+        Add Book
+      </router-link>
+    </div>
+
+    <div class="py-10 font-poppins px-32 ">
+      <ul class="grid grid-cols-4 gap-y-10" v-if="this.books.length>0">
+        <li  v-for="book in books" :key="book.id" class=" flex flex-col justify-center items-center space-y-2">
+          <img :src="require(`@/assets/images/${book.img}`)" :alt="book.title" style="max-width: 200px ">
+          <h3 class="font-semibold ">{{ book.title }}</h3>
+          <p class="text-gray-500">{{ book.author}}</p>
+          <p class="font-semibold ">{{ book.price }}$</p>
+          <div class="flex space-x-4 py-4">
+            <router-link :to="{path:'/books/'+book.id+'/edit'}" class="bg-blue-300 rounded px-4 py-2 hover:bg-blue-600 hover:text-white duration-150">
+              Edit
+            </router-link>
+            <button @click="deleteBook(book.id)" class="bg-red-300 rounded px-4 py-2 hover:bg-red-600 hover:text-white duration-150">Delete</button>
+          </div> 
+
+        </li>
+      </ul>
+      <ul class="text-center" v-else>
+        <h2>Loading....</h2>
+      </ul>
+    </div>
+  
 </template>
 
 <script>
-export default {
-  name: 'Books',
-  data() {
-    return {
-      books: [
-        { 
-          title: 'Harry Potter and the Chamber of Secrets', 
-          author:"J.K Rowling",
-          description:"Harry returns to Hogwarts for his second year, only to find mysterious attacks threatening students. With the help of his friends Ron and Hermione, Harry uncovers a dark secret hidden within the school's history and confronts the ancient evil lurking in the Chamber of Secrets.",
-          price: "20",
-          imageFileName: 'hp1.jpg'
-        },
-        { 
-          title: 'Harry Potter and the Deathly Hallows', 
-          author:"J.K Rowling",
-          description:"Harry, Ron, and Hermione embark on a dangerous quest to destroy Voldemort's remaining Horcruxes. As they face escalating threats from Death Eaters and the Dark Lord himself, they must rely on each other and their courage to fulfill their destiny and defeat the ultimate evil threatening the wizarding world.",
-          price: "23",
-          img: 'hp2.jpg'
-        },
-        { 
-          title: 'Dune', 
-          author:"Frank Herbert",
-          description:"Dune is a sweeping science fiction epic set in a distant future where noble houses vie for control of the desert planet Arrakis, the only source of the universe's most valuable substance, spice. It follows young Paul Atreides as he navigates political intrigue, religious prophecy, and personal transformation, ultimately becoming a pivotal figure in shaping the fate of humanity.",
-          price: "25",
-          img: 'dune.jpg'
-        },
-        { 
-          title: 'The World of Ice and Fire', 
-          author:"George R. R. Martin",
-          description:"a gripping fantasy series by George R.R. Martin, set in the fictional continents of Westeros and Essos. Focused on power struggles among noble families, it weaves a complex narrative of political intrigue, war, and supernatural elements, with characters battling for the Iron Throne while an ancient threat looms beyond the Wall in the icy North.",
-          price: "30",
-          img: 'got.jpg'
-        }
-      ]
-    };
+import axios from 'axios';
+export default{
+  name:'books',
+  data(){
+    return{
+      books:[]
+    } 
   },
-  methods: {
-    deleteBook(bookId) {
-      // Implement deleting logic here
-      this.books = this.books.filter(book => book.id !== bookId);
-      console.log("Deleting book with ID:", bookId);
+  mounted(){
+    this.getBooks();
+  },
+  methods:{
+    getBooks(){
+      axios.get('http://localhost:8000/api/books').then(res=>{
+        this.books=res.data.books
+      })
+    },
+    deleteBook(bookId){
+      if(confirm("Are you sure you want to delete this data?")){
+        axios.delete('http://localhost:8000/api/books/'+bookId+'/delete').then(res=>{
+          alert(res.data.message);
+          this.getBooks();
+        })
+      }
     }
   }
 }
 </script>
-<style scoped>
-
-
-.book {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-
-}
-
-.book h1 {
-  text-align: center;
-}
-
-.book ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top:50px;
-}
-
-.book li {
-  margin: 10px;
-  flex: 1 0 200px; /* Each book item will have a flex basis of 200px, can grow, but not shrink */
-}
-
-.book img {
-  display: block;
-  width: 100%; /* Make the image fill its container */
-  height: auto; /* Maintain aspect ratio */
-}
-
-.book h2 {
-  margin-bottom: 5px;
-}
-
-.book p {
-  margin-top: 5px;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-body{
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-}
-
-.button-add-to-cart {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.button-add-to-cart:hover{
-  background-color: #1a6b1d; 
-}
-</style>

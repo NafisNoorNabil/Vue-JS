@@ -1,17 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Books from '../views/Books.vue'
-import Admin from '../views/AdminPanel.vue'
+import Create from '../views/Create.vue'
+import bookEdit from '../views/Edit.vue'
 const routes = [
   {
-    path: '/',
+    path: '/books',
     name: 'books',
     component: Books
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: Admin
-  }
+    path: '/books/create',
+    name: 'bookCreate',
+    component: Create
+  },
+    {
+    path: '/books/:id/edit',
+    name: 'bookEdit',
+    component: bookEdit
+  },
+
 ]
 
 const router = createRouter({

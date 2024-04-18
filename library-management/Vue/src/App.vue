@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <nav>
-      <router-link :to="{name:'books'}">Books</router-link>
-      <router-link :to="{name:'admin'}">Admin</router-link>
+
+    <nav class="space-x-10 ">
+      <div class="bg-violet-700 py-6 flex justify-center">
+      <router-link :to="{name:'books'}">Home</router-link>
+
+      </div>
     </nav>
     <router-view/>
-  </div>
+
 </template>
 
-<style>
-@import "@/assets/App.css";
-</style>
